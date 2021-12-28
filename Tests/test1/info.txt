@@ -1,0 +1,7 @@
+├──■ Loading XYZ Points ...
+│ └──■ Loaded:
+│       ●── 487554 total fixed points
+│       ●── 187554 selected fixed points
+│       ●────── 20 moving points
+│       ●──── 9200 fixed points cropped by outer bbox
+│       ●──── 4007 fixed points cropped by inner bbox
