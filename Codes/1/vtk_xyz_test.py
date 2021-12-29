@@ -45,10 +45,10 @@ class VtkPointCloud:
         self.vtkPolyData.GetPointData().SetActiveScalars('DepthArray')
 
 def load_data(filename,pointCloud):
-    data = genfromtxt(filename,dtype=float,usecols=[0,1,2])
+    data = genfromtxt(filename, dtype=float, usecols=[0, 1, 2])
 
-    for k in range(size(data,0)):
-        point = data[k] #20*(random.rand(3)-0.5)
+    for k in range(size(data, 0)):
+        point = data[k]  #20*(random.rand(3)-0.5)
         pointCloud.addPoint(point)
 
     return pointCloud
@@ -57,18 +57,17 @@ def load_data(filename,pointCloud):
 if __name__ == '__main__':
     import sys
 
-
     if (len(sys.argv) < 2):
-         print ('Usage: xyzviewer.py itemfile')
-         sys.exit()
+        print('Usage: xyzviewer.py itemfile')
+        sys.exit()
     pointCloud = VtkPointCloud()
-    pointCloud=load_data(sys.argv[1],pointCloud)
+    pointCloud = load_data(sys.argv[1],pointCloud)
 
 
 # Renderer
     renderer = vtk.vtkRenderer()
     renderer.AddActor(pointCloud.vtkActor)
-#renderer.SetBackground(.2, .3, .4)
+# renderer.SetBackground(.2, .3, .4)
     renderer.SetBackground(0.0, 0.0, 0.0)
     renderer.ResetCamera()
 

@@ -17,16 +17,19 @@ class VisualizePoints:
         self.moving = moving
         self.landmarks = landmarks
         
-    def show_points(self, data, title, ax, color='b', marker='o', size=10):
+    def show_points(self, data, title, ax, color='b', marker='o', size=10, show_outer_bbox=False, show_inner_bbox=False):
         ax.scatter(data[:, 0], data[:, 1], data[:, 2], color=color, marker=marker, s=size)
         ax.set_title(title)
-        self.show_bbox(self.moving, ax)
+        self.show_bbox(self.moving, ax, show_outer=show_outer_bbox, show_inner=show_inner_bbox)
         # plt.show()
     
-    def show_side_by_side(self):
-        self.show_points(self.fixed, title='Image Points', color='blue', marker='.', size=1, ax=self.ax1)
-        self.show_points(self.moving, title='Tracker Points', color='blue', marker='.', size=80, ax=self.ax2)
-        self.show_points(self.landmarks, title='Tracker Points', color='red', marker='^', size=80, ax=self.ax2)
+    def show_side_by_side(self, show_outer_bbox=False, show_inner_bbox=False):
+        self.fig_double = plt.figure()
+        self.ax1 = self.fig_double.add_subplot(121, projection='3d')
+        self.ax2 = self.fig_double.add_subplot(122, projection='3d')
+        self.show_points(self.fixed, title='Image Points', color='blue', marker='.', size=1, ax=self.ax1, show_outer_bbox=show_outer_bbox, show_inner_bbox=show_inner_bbox)
+        self.show_points(self.moving, title='Tracker Points', color='blue', marker='.', size=80, ax=self.ax2, show_outer_bbox=show_outer_bbox, show_inner_bbox=show_inner_bbox)
+        self.show_points(self.landmarks, title='Tracker Points', color='red', marker='^', size=80, ax=self.ax2, show_outer_bbox=show_outer_bbox, show_inner_bbox=show_inner_bbox)
         self.ax2.set_xlim(self.ax1.get_xlim())
         self.ax2.set_ylim(self.ax1.get_ylim())
         self.ax2.set_zlim(self.ax1.get_zlim())
@@ -58,7 +61,10 @@ class VisualizePoints:
 
         plt.show()
 
-    def show_bbox(self, data, ax, padding=0, color='r', alpha=0.8):
+    def show_bbox(self, data, ax, padding=0, color='r', alpha=0.8, show_outer=True, show_inner=True):
+        if not show_outer and not show_inner:
+            return
+        
         min_pts_outer = [np.min(data[:, [0]])-5,
                          np.min(data[:, [1]])-5,
                          np.min(data[:, [2]])-5]
@@ -99,10 +105,12 @@ class VisualizePoints:
         x1, y1, z1 = self.calculate_xyz(o1, l1, w1, h1)
         x2, y2, z2 = self.calculate_xyz(o2, l2, w2, h2)
         
-        ax.plot_wireframe(np.array(x1), np.array(y1), np.array(z1),
-                          color=color, alpha=alpha)
-        ax.plot_wireframe(np.array(x2), np.array(y2), np.array(z2),
-                          color='green', alpha=alpha)
+        if show_outer:
+            ax.plot_wireframe(np.array(x1), np.array(y1), np.array(z1),
+                            color=color, alpha=alpha)
+        if show_inner:
+            ax.plot_wireframe(np.array(x2), np.array(y2), np.array(z2),
+                            color='green', alpha=alpha)
         # return np.array(x), np.array(y), np.array(z)
     
     def calculate_xyz(self, o, l, w, h):
