@@ -37,6 +37,9 @@ inner_bbox = bounding_box(fixed_cropped1,
 fixed_cropped2 = fixed_cropped1[~inner_bbox]
 print(f'│\t●{len(fixed_cropped2):─>8} fixed points cropped by inner bbox')
 
+np.savetxt('../../Tests/test1/fixed_cropped2.txt',
+           fixed_cropped2, delimiter='\t', fmt='%.6f')
+
 # %% Visualization
 vis = VisualizePoints()
 
