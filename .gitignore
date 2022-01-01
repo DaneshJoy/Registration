@@ -76,3 +76,6 @@ instance/
 # fandogh
 .fandogh
 
+# Extra directories
+videos/
+

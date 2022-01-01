@@ -1,18 +1,15 @@
 ### Main Steps
 
-- [x] ~~Prepare VTK/ITK Environment~~
-- [x] ~~Prepare Sample Data (Source/Target  Point-Clouds)~~
-- [ ] Visualize Point-Clouds
-  - [ ] Python
-  - [ ] C++
-- [ ] Register Point-Clouds
-  - [ ] Python
-  - [ ] C++
-- [ ] Test Multiple Algorithms
-  - [ ] Python
-  - [ ] C++
-- [ ] Test the Registration Algorithms with Cropped Surface (Regarding the Landmark Positions)
-- [ ] Test with More Data
+- [x] Prepare VTK/ITK Environment
+- [x] Prepare Sample Data (Source/Target  Point-Clouds)
+- [x] Visualize Point-Clouds
+- [x] Crop Image Points with Outer+Inner Bounding-Boxes of Tracker Points
+- [ ] Collect Dummy points (Landmark + Surface)
+- [ ] Random Noise + Transform on Dummy Points
+- [ ] Register with Dummy points (simulation)
+  - [ ] ICP
+  - [ ] CPD
+- [ ] Test with More Real Data
 
 ---
 
