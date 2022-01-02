@@ -5,24 +5,37 @@ import numpy as np
 class VisualizePoints:
     
     def __init__(self):
-        self.fig_single = plt.figure()
-        self.ax_single = self.fig_single.gca(projection='3d')
+        pass
         
-        self.fig_double = plt.figure()
-        self.ax1 = self.fig_double.add_subplot(121, projection='3d')
-        self.ax2 = self.fig_double.add_subplot(122, projection='3d')
-        
-    def set_data(self, fixed, moving, landmarks):
+    def set_data(self, fixed, moving=None, landmarks=None):
         self.fixed = fixed
         self.moving = moving
         self.landmarks = landmarks
         
-    def show_points(self, data, title, ax, color='b', marker='o', size=10, show_outer_bbox=False, show_inner_bbox=False):
+    def show_points(self, data, title, ax=None, color='b', marker='o', size=10, show_outer_bbox=False, show_inner_bbox=False):
+        single_ax = False
+        if ax == None:
+            self.fig_single = plt.figure()
+            self.ax_single = self.fig_single.gca(projection='3d')
+            ax = self.ax_single
+            single_ax = True
         ax.scatter(data[:, 0], data[:, 1], data[:, 2], color=color, marker=marker, s=size)
         ax.set_title(title)
         self.show_bbox(self.moving, ax, show_outer=show_outer_bbox, show_inner=show_inner_bbox)
-        # plt.show()
+        if single_ax:
+            plt.show()
     
+    def show_points_on_points(self, points1, points2, title, ax=None, color1='b', color2='r', marker1='.', marker2='*', size1=1, size2=10):
+        if ax == None:
+            self.fig_single = plt.figure()
+            self.ax_single = self.fig_single.gca(projection='3d')
+            ax = self.ax_single
+        ax.scatter(points1[:, 0], points1[:, 1], points1[:, 2], color=color1, marker=marker1, s=size1)
+        ax.scatter(points2[:, 0], points2[:, 1], points2[:, 2], color=color2, marker=marker2, s=size2)
+        ax.set_title(title)
+        if ax == self.ax_single:
+            plt.show()
+        
     def show_side_by_side(self, show_outer_bbox=False, show_inner_bbox=False):
         self.fig_double = plt.figure()
         self.ax1 = self.fig_double.add_subplot(121, projection='3d')
@@ -127,3 +140,16 @@ class VisualizePoints:
              [o[2], o[2], o[2] + h, o[2] + h, o[2]],                # z coordinate of points in outside surface
              [o[2], o[2], o[2] + h, o[2] + h, o[2]]]                # z coordinate of points in inside surface
         return x, y, z
+    
+    def visualize_reg(self, iteration, error, X, Y, ax):
+        # self.fig.delaxes(self.axes1)
+        # self.fig.delaxes(self.axes2)
+        # self.fig.patches = []
+        ax.cla()
+        ax.scatter(X[:, 0],  X[:, 1], X[:, 2], color='red', marker='+', label='Target')
+        ax.scatter(Y[:, 0],  Y[:, 1], Y[:, 2], color='blue', marker='^', label='Source', s=80)
+        ax.text2D(0.87, 0.92, 'Iteration: {:d}\nQ: {:06.4f}'.format(
+            iteration, error), horizontalalignment='center', verticalalignment='center', transform=ax.transAxes, fontsize='x-large')
+        ax.legend(loc='upper left', fontsize='x-large')
+        plt.draw()
+        plt.pause(0.001)
