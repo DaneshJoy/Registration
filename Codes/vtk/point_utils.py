@@ -41,7 +41,7 @@ def draw_points(xyz_points):
     renderWindowInteractor.Start()
     # self.ren.ResetCameraClippingRange()
     
-def draw_two_pointclouds(fixed, moving):
+def draw_two_pointclouds(fixed, moving1, moving2=[]):
     # Renderer
     # renderer = vtk.vtkRenderer()
     renderer = vtk.vtkOpenGLRenderer()
@@ -64,22 +64,35 @@ def draw_two_pointclouds(fixed, moving):
     # actor
     points_fixed = vtk.vtkActor()
     points_fixed.SetMapper(pmap_fixed)
-    points_fixed.GetProperty().SetPointSize(3)
-    points_fixed.GetProperty().SetColor(0.2,0.6,0.8) # (R,G,B)
+    points_fixed.GetProperty().SetPointSize(2)
+    points_fixed.GetProperty().SetColor(0.3,0.4,0.4) # (R,G,B)
     
-    poly_moving = xyz_to_ply(moving)
-    pmap_moving = vtk.vtkPolyDataMapper()
-    pmap_moving.SetInputDataObject(poly_moving)
+    poly_moving1 = xyz_to_ply(moving1)
+    pmap_moving1 = vtk.vtkPolyDataMapper()
+    pmap_moving1.SetInputDataObject(poly_moving1)
 
     # actor
-    points_moving = vtk.vtkActor()
-    points_moving.SetMapper(pmap_moving)
-    points_moving.GetProperty().SetPointSize(5)
-    points_moving.GetProperty().SetColor(0.9,0.1,0.1) # (R,G,B)
+    points_moving1 = vtk.vtkActor()
+    points_moving1.SetMapper(pmap_moving1)
+    points_moving1.GetProperty().SetPointSize(6)
+    points_moving1.GetProperty().SetColor(0.9,0.1,0.1) # (R,G,B)
 
+    if moving2 != []:
+        poly_moving2 = xyz_to_ply(moving2)
+        pmap_moving2 = vtk.vtkPolyDataMapper()
+        pmap_moving2.SetInputDataObject(poly_moving2)
+
+        # actor
+        points_moving2 = vtk.vtkActor()
+        points_moving2.SetMapper(pmap_moving2)
+        points_moving2.GetProperty().SetPointSize(6)
+        points_moving2.GetProperty().SetColor(0.1,0.9,0.1) # (R,G,B)
+        
     # assign actor to the renderer
     renderer.AddActor(points_fixed)
-    renderer.AddActor(points_moving)
+    renderer.AddActor(points_moving1)
+    if moving2 != []:
+        renderer.AddActor(points_moving2)
     # renderer.Render()
     # renderWindowInteractor.GetRenderWindow().AddRenderer(renderer)
     renderWindowInteractor.SetInteractorStyle(vtk.vtkInteractorStyleTrackballCamera())
@@ -89,6 +102,7 @@ def draw_two_pointclouds(fixed, moving):
     renderWindow.SetWindowName("XYZ Data Viewer")
     renderWindowInteractor.Start()
     # self.ren.ResetCameraClippingRange()
+
 
 def xyz_to_ply(xyz_points):
     pts = vtk.vtkPoints()
