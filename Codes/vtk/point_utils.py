@@ -18,7 +18,7 @@ def draw_points(xyz_points):
     # Interactor
     renderWindowInteractor = vtk.vtkRenderWindowInteractor()
     renderWindowInteractor.SetRenderWindow(renderWindow)
-             
+
     poly = xyz_to_ply(xyz_points)
     pmap = vtk.vtkPolyDataMapper()
     pmap.SetInputDataObject(poly)
@@ -27,21 +27,24 @@ def draw_points(xyz_points):
     points = vtk.vtkActor()
     points.SetMapper(pmap)
     points.GetProperty().SetPointSize(3)
-    points.GetProperty().SetColor(0.2,0.5,1) # (R,G,B)
+    points.GetProperty().SetColor(0.2, 0.5, 1)  # (R,G,B)
 
     # assign actor to the renderer
     renderer.AddActor(points)
     # renderer.Render()
     # renderWindowInteractor.GetRenderWindow().AddRenderer(renderer)
-    renderWindowInteractor.SetInteractorStyle(vtk.vtkInteractorStyleTrackballCamera())
+    renderWindowInteractor.SetInteractorStyle(
+        vtk.vtkInteractorStyleTrackballCamera())
     # interactor.ReInitialize()
     # Begin Interaction
     renderWindow.Render()
     renderWindow.SetWindowName("XYZ Data Viewer")
     renderWindowInteractor.Start()
     # self.ren.ResetCameraClippingRange()
-    
-def draw_two_pointclouds(fixed, moving1, moving2=[]):
+
+
+def draw_two_pointclouds(fixed, moving1, moving2=[],
+                         color1=[1, 0, 0], color2=[0, 1, 0]):
     # Renderer
     # renderer = vtk.vtkRenderer()
     renderer = vtk.vtkOpenGLRenderer()
@@ -56,7 +59,7 @@ def draw_two_pointclouds(fixed, moving1, moving2=[]):
     # Interactor
     renderWindowInteractor = vtk.vtkRenderWindowInteractor()
     renderWindowInteractor.SetRenderWindow(renderWindow)
-             
+
     poly_fixed = xyz_to_ply(fixed)
     pmap_fixed = vtk.vtkPolyDataMapper()
     pmap_fixed.SetInputDataObject(poly_fixed)
@@ -64,9 +67,9 @@ def draw_two_pointclouds(fixed, moving1, moving2=[]):
     # actor
     points_fixed = vtk.vtkActor()
     points_fixed.SetMapper(pmap_fixed)
-    points_fixed.GetProperty().SetPointSize(2)
-    points_fixed.GetProperty().SetColor(0.3,0.4,0.4) # (R,G,B)
-    
+    points_fixed.GetProperty().SetPointSize(4)
+    points_fixed.GetProperty().SetColor(0.3, 0.5, 0.5)  # (R,G,B)
+
     poly_moving1 = xyz_to_ply(moving1)
     pmap_moving1 = vtk.vtkPolyDataMapper()
     pmap_moving1.SetInputDataObject(poly_moving1)
@@ -74,8 +77,8 @@ def draw_two_pointclouds(fixed, moving1, moving2=[]):
     # actor
     points_moving1 = vtk.vtkActor()
     points_moving1.SetMapper(pmap_moving1)
-    points_moving1.GetProperty().SetPointSize(6)
-    points_moving1.GetProperty().SetColor(0.9,0.1,0.1) # (R,G,B)
+    points_moving1.GetProperty().SetPointSize(10)
+    points_moving1.GetProperty().SetColor(color1)  # (R,G,B)
 
     if moving2 != []:
         poly_moving2 = xyz_to_ply(moving2)
@@ -85,9 +88,9 @@ def draw_two_pointclouds(fixed, moving1, moving2=[]):
         # actor
         points_moving2 = vtk.vtkActor()
         points_moving2.SetMapper(pmap_moving2)
-        points_moving2.GetProperty().SetPointSize(6)
-        points_moving2.GetProperty().SetColor(0.1,0.9,0.1) # (R,G,B)
-        
+        points_moving2.GetProperty().SetPointSize(10)
+        points_moving2.GetProperty().SetColor(color2)  # (R,G,B)
+
     # assign actor to the renderer
     renderer.AddActor(points_fixed)
     renderer.AddActor(points_moving1)
@@ -95,9 +98,12 @@ def draw_two_pointclouds(fixed, moving1, moving2=[]):
         renderer.AddActor(points_moving2)
     # renderer.Render()
     # renderWindowInteractor.GetRenderWindow().AddRenderer(renderer)
-    renderWindowInteractor.SetInteractorStyle(vtk.vtkInteractorStyleTrackballCamera())
+    renderWindowInteractor.SetInteractorStyle(
+        vtk.vtkInteractorStyleTrackballCamera())
     # interactor.ReInitialize()
     # Begin Interaction
+    renderWindow.SetSize(1000, 800)
+    renderWindow.SetPosition(500, 100)
     renderWindow.Render()
     renderWindow.SetWindowName("XYZ Data Viewer")
     renderWindowInteractor.Start()
@@ -110,7 +116,7 @@ def xyz_to_ply(xyz_points):
     poly = vtk.vtkPolyData()
     nPoints = len(xyz_points)
 
-    for i in range(0,nPoints):
+    for i in range(0, nPoints):
         # pos = xyz_points[:,:,i]
         pos = xyz_points[i]
         pts.InsertNextPoint(pos[0], pos[1], pos[2])
@@ -124,7 +130,6 @@ def xyz_to_ply(xyz_points):
     poly.SetPoints(pts)
     poly.SetVerts(conn)
 
-    
     return poly
 
     # flipTrans = vtk.vtkTransform()

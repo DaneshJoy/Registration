@@ -1,0 +1,16 @@
+│ └──■ Loaded: 
+│       ●──487554 total fixed points
+│       ●──187554 selected fixed points
+│       ●──────20 moving points
+│       ●────9650 fixed points cropped by outer bbox
+│       ●────1527 fixed points cropped by inner bbox
+
+└──• Average Results:
+ ├──• Surface
+ │ ├──• Mean: 1.10 ±0.26
+ │ ├──• Min:  0.72
+ │ └──• Max:  1.53
+ └──• Landmark
+   ├──• Mean: 2.43 ±1.27
+   ├──• Min:  0.77
+   └──• Max:  4.40
