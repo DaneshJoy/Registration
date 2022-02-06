@@ -10,12 +10,13 @@ display_points = True
 display_errors = False
 print_info = True
 
-fixed_pts = np.loadtxt(r'C:\Parsiss\MIS-4.6.7-a8-2201\SurfaceRegOutput0\OuterLayerPoints.txt.txt')
 moving_pts = np.loadtxt(r'C:\Parsiss\MIS-4.6.7-a8-2201\SurfaceRegOutput1\surfacePoints_Out3.txt')
+fixed_pts = np.loadtxt(r'C:\Parsiss\misSoloutionBiopsyLog\CreateMISRelease_local\SurfaceRegOutput0\OuterLayerPoints.txt',
+                       delimiter=',')
 
 if display_points:
-    # draw_points(fixed_pts)
-    draw_two_pointclouds(fixed_pts, moving_pts)
+    draw_points(fixed_pts, point_size=1, color=[0, 1, 0])
+    # draw_two_pointclouds(fixed_pts, moving_pts, point_size=1)
 
     
 fixed = xyz_to_ply(fixed_pts)
