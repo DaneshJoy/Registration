@@ -1,0 +1,4 @@
+4 Landmark points
+up / left / right / front
+21 surface points
+left(9) / right(10) / up(2) / front(2)
